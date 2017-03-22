@@ -53,17 +53,14 @@ int main(int argc, char **argv) {
 	while (c = *input++) {
 		triplet += (hexbytetointeger(c) << (4 * (2 - triplet_offset++)));
 		if (triplet_offset >= 3) {
-			printf("triplet converted with value %d\n", triplet);
+			char converted[3];
+			strcpy(converted, "  ");
+			to_base64(triplet, converted);
+			printf("%s", converted);
 			triplet_offset = 0;
 			triplet = 0;
 		}
 	}
-
-	char *bas64;
-	strcpy(bas64, "  ");
-	char *bin = argv[2];
-	to_base64(atoi(bin), bas64);
-	printf("base64 output of %d is %s\n", atoi(bin), bas64);
-
+	printf("\n");
 	return 0;
 }
