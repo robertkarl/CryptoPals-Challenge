@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
 	if (!f)
 		exit(-1);
 
-	while (fgets(chars, NCHARS + 1, f)) {
+	while (fgets(chars, NCHARS + 2, f)) {
 		chars[NCHARS] = 0; /* it was previously a newline */
 		hex_to_data(chars, raw);
 		i++;
