@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS = -I. -Wall -g -pedantic -ansi
+CFLAGS = -I. -Wstrict-prototypes -Wall -g -pedantic -ansi
 DEPS = common.h
 
 OBJS = common.o hextobase64.o
