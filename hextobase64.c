@@ -5,50 +5,57 @@
 #include "common.h"
 
 /*
-Three hex characters will become 2 bas64 digits
+Three hex characters will become 2 base64 digits
 Group of 3 hex -> integer between [0 and 16**3) -> 2 base64
 f6d --> 9t
  */
 
 /* Turn 6 bits of base64 into an ascii char */
 char base64word_to_ascii(unsigned c) {
-	static char *base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+	static char *base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		"abcdefghijklmnopqrstuvwxyz0123456789+/";
 	assert(c < strlen(base64));
 	return base64[c];
 }
 
-/* turn 16 bits of integer into 2 base64 chars */
-void to_base64(unsigned triplet, char *output) {
-	unsigned upper = base64word_to_ascii(triplet >> 6);
-	unsigned lower = 0;
-	/* without the mask, something weird happens (all 1s get shifted in?) i expected a truncation */
-	lower = base64word_to_ascii(63 & triplet); 
-	*output++ = upper;
-	*output = lower;
+/* turn up to 24 bits of integer into base64 chars */
+void to_base64(unsigned triplet, char *output, int inbits) {
+	assert(inbits <= 24 && inbits > 0 && (inbits % 8 == 0));
+	unsigned end_equals = 4;
+	unsigned sixbitmask = 63;
+	while (inbits > 0) {
+		inbits -= 6;
+		unsigned c = base64word_to_ascii(triplet & sixbitmask);
+		triplet >>= 6;
+		*(output-- + 3) = c;
+		end_equals--;
+	}
+	for (int i = 0; i < end_equals; i++) {
+		*(output + 4 + end_equals) = '=';
+		output++;
+	}
 }
 
 int main(int argc, char **argv) {
 	char *input = argv[1];
-	unsigned triplet = 0;
+	unsigned septet = 0;
 	int triplet_offset = 0;
 	unsigned c;
-	char converted[2];
+	char converted[4];
 
 	while ((c = *input++)) {
-		triplet += (hexbytetointeger(c) << (4 * (2 - triplet_offset++)));
-		if (triplet_offset >= 3) {
-			to_base64(triplet, converted);
-			printf("%.2s", converted);
+		unsigned bitoffset = 4 * (5 - triplet_offset++);
+		septet += (hexbytetointeger(c) << bitoffset);
+		if (triplet_offset >= 6) {
+			to_base64(septet, converted, 24);
+			printf("%.4s", converted);
 			triplet_offset = 0;
-			triplet = 0;
+			septet = 0;
 		}
 	}
 	if (triplet_offset) {
-		to_base64(triplet, converted);
-		printf("%.2s", converted);
-		for (int i = 0; i < 3 - triplet_offset; i++) {
-			printf("=");
-		}
+		to_base64(septet, converted, 8 * (triplet_offset / 2));
+		printf("%.4s", converted);
 	}
 	printf("\n");
 	return 0;

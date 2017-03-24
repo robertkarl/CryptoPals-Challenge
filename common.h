@@ -6,3 +6,4 @@ garbage otherwise.
 */
 unsigned hexbytetointeger(char c);
 char integer_to_hexbyte(int);
+void hex_to_ascii(char *in, char*out);
