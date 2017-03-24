@@ -16,7 +16,7 @@ void hex_to_ascii(char *in, char*out) {
 	unsigned c;
 	do {
 		printf("converted first byte to int. got %u\n", hexbytetointeger(*in));
-		c = hexbytetointeger(*in) << 4 + hexbytetointeger(*(in + 1));
+		c = hexbytetointeger(*in) << (4 + hexbytetointeger(*(in + 1)));
 		*out++ = c;
 		
 	} while (*in++);
