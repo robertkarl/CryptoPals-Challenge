@@ -4,12 +4,14 @@
 #include "common.h"
 
 int main(int argc, char **argv) {
+	char *a;
+	char *b;
 	if (argc != 3) {
 		printf("%s: xor two buffers of equal length\n", argv[0]);
 		exit(-1);
 	}
-	char *a = argv[1];
-	char *b = argv[2];
+	a = argv[1];
+	b = argv[2];
 	if (strlen(argv[1]) != strlen(argv[2]))
 		exit(-1);
 	do {
