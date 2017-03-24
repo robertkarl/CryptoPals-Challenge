@@ -25,11 +25,13 @@ char integer_to_hexbyte(int i) {
 
 void hex_to_data(char *in, char*out) {
 	unsigned c;
-	do {
-		c = (hexbytetointeger(*in) << 4) + hexbytetointeger(*(in + 1));
+	while (*in) {
+		unsigned upper = (hexbytetointeger(*in) << 4);
+		unsigned lower = hexbytetointeger(*(in + 1));
+		c = upper + lower;
 		*out++ = c;
-		
-	} while (*in++);
+		in += 2;
+	}
 }
 
 void xor_single(char *input, char *output, char xorkey, unsigned len)

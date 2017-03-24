@@ -47,7 +47,7 @@ int score(char *text, int len) {
 		else if (lookslikeenglish(c))
 			score += 5;
 		else
-			score += 25;
+			score += 100;
 	}
 	return score;
 }
