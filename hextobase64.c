@@ -23,17 +23,15 @@ void to_base64(unsigned triplet, char *output, int inbits) {
 	assert(inbits <= 24 && inbits > 0 && (inbits % 8 == 0));
 	unsigned end_equals = 4;
 	unsigned sixbitmask = 63;
-	while (inbits > 0) {
+	for (int shift = 18; inbits > 0 && shift >= 0; shift -= 6) {
 		inbits -= 6;
-		unsigned c = base64word_to_ascii(triplet & sixbitmask);
-		triplet >>= 6;
-		*(output-- + 3) = c;
+		unsigned c = base64word_to_ascii(
+			(triplet >> shift) & sixbitmask);
+		*(output++) = c;
 		end_equals--;
 	}
-	for (int i = 0; i < end_equals; i++) {
-		*(output + 4 + end_equals) = '=';
-		output++;
-	}
+	while (end_equals--)
+		*output++ = '=';
 }
 
 int main(int argc, char **argv) {
@@ -60,3 +58,4 @@ int main(int argc, char **argv) {
 	printf("\n");
 	return 0;
 }
+
