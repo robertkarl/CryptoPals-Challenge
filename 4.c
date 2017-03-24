@@ -33,7 +33,8 @@ int main(int argc, char **argv) {
 			s = score(xored, NCHARS / 2);
 			if (s < 400) {
 				printchars(xored, NCHARS / 2);
-				printf("%03d with key %d at file index %d)\n",
+				printf("%s\n", chars);
+				printf("%03d with key %d at file index %d\n",
 					s, j, i);
 			}
 		}
