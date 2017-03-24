@@ -15,3 +15,5 @@ char encode64(unsigned c);
 
 /* xor input against xorkey and place into output */
 void xor_single(char *input, char *output, char xorkey, unsigned len);
+
+int score(char *text, int len);

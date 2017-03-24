@@ -5,6 +5,31 @@
 static char *base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	"abcdefghijklmnopqrstuvwxyz0123456789+/";
 
+int char_in_set(char c, char *charset) {
+	char *curr = charset;
+	do {
+		if (*curr == c) {
+			return 1;
+		}
+	} while (*(++curr));
+	return 0;
+}
+
+int isvowel(char c) {
+	char *vowels = "aeiou";
+	return char_in_set(c, vowels);
+}
+
+int israre(char c) {
+	char *cs = "zqkwjx";
+	return char_in_set(c, cs);
+}
+
+int lookslikeenglish(char c) {
+	char *cs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+	return char_in_set(c, cs);
+}
+
 
 char encode64(unsigned c) {
 	assert(c < 64);
@@ -32,6 +57,25 @@ void hex_to_data(char *in, char*out) {
 		*out++ = c;
 		in += 2;
 	}
+}
+
+int score(char *text, int len) {
+	char *curr = text;
+	char c;
+	int score = 0;
+	int i;
+	for (i = 0; i < len; i++) {
+		c = *curr++;
+		if (isvowel(c))
+			continue;
+		if (israre(c))
+			score += 10;
+		else if (lookslikeenglish(c))
+			score += 5;
+		else
+			score += 100;
+	}
+	return score;
 }
 
 void xor_single(char *input, char *output, char xorkey, unsigned len)
