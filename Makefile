@@ -10,6 +10,9 @@ hex2base64: $(OBJS)
 xor: xor.c common.o
 	$(CC) -o bin/xor $(CFLAGS) xor.c common.o
 
+outputscores__3: outputscores__3.c common.o
+	$(CC) $(CFLAGS) -o bin/outputscores__3 outputscores__3.c common.o 
+
 hextobase64.o: hextobase64.c common.h
 	$(CC) -c $(CFLAGS) hextobase64.c
 

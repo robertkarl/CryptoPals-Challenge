@@ -37,7 +37,8 @@ void hex_to_data(char *in, char*out) {
 void xor_single(char *input, char *output, char xorkey, unsigned len)
 {
 	char c;
-	for (int i = 0; i < len; i++) {
+	int i;
+	for (i = 0; i < len; i++) {
 		c = *input++;
 		*output++ = c ^ xorkey;
 	}

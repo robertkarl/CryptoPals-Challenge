@@ -38,7 +38,8 @@ int score(char *text, int len) {
 	char *curr = text;
 	char c;
 	int score = 0;
-	for (int i = 0; i < len; i++) {
+	int i;
+	for (i = 0; i < len; i++) {
 		c = *curr++;
 		if (isvowel(c))
 			continue;
@@ -56,6 +57,7 @@ int main(int argc, char **argv) {
 	char *raw;
 	char *xored;
 	int len = strlen(argv[1]) / 2;
+	int i;
 
 	raw = malloc(len);
 	if (!raw)
@@ -65,7 +67,7 @@ int main(int argc, char **argv) {
 		exit(-1);
 	
 	hex_to_data(argv[1], raw);
-	for (int i = 0; i < 256; i++) {
+	for (i = 0; i < 256; i++) {
 		xor_single(raw, xored, i, len);
 		printf("%d score for %d\n", score(xored, len), i);
 	}
