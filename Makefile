@@ -7,8 +7,8 @@ OBJS = common.o hextobase64.o
 hex2base64: $(OBJS)
 	$(CC) -o bin/hex2base64 $(OBJS)
 
-xorbuffers: xor.c common.o
-	$(CC) -o bin/xorbuffers $(CFLAGS) xor.c common.o
+xor: xor.c common.o
+	$(CC) -o bin/xor $(CFLAGS) xor.c common.o
 
 hextobase64.o: hextobase64.c common.h
 	$(CC) -c $(CFLAGS) hextobase64.c

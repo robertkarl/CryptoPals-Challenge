@@ -9,7 +9,7 @@ unsigned hexbytetointeger(char c) {
 char integer_to_hexbyte(int i) {
 	if (i < 10)
 		return '0' + i;
-	return 'a' + i;
+	return 'a' + i - 10;
 }
 
 void hex_to_ascii(char *in, char*out) {
