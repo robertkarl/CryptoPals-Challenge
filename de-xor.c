@@ -23,43 +23,54 @@ int israre(char c) {
 	return char_in_set(c, cs);
 }
 
+int lookslikeenglish(char c) {
+	char *cs = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+	return char_in_set(c, cs);
+}
+
 void xor(char *in, char *out, unsigned key) {
 	do {
 		*out++ = *in++ ^ key;
 	} while (*in);
 }
-	
 
-int score(char *text) {
+int score(char *text, int len) {
 	char *curr = text;
 	char c;
-	int score;
-	while ((c = *curr++)) {
+	int score = 0;
+	for (int i = 0; i < len; i++) {
+		c = *curr++;
 		if (isvowel(c))
 			continue;
 		if (israre(c))
 			score += 10;
-		else
+		else if (lookslikeenglish(c))
 			score += 5;
+		else
+			score += 25;
 	}
 	return score;
 }
 
 int main(int argc, char **argv) {
-	printf("%d\n", score(argv[1]));
-	char *out = malloc(strlen(argv[1]));
-	if (!out)
-		exit(-1);
-	xor(argv[1], out, 0);
-	printf("xored with 0: %s\n", out);
-	char *asciified = malloc(strlen(argv[1]) / 2);
-	if (!asciified)
-		exit(-1);
-	hex_to_ascii(out, asciified);
-	printf("%s\n", asciified);
-	
+	char *raw;
+	char *xored;
+	int len = strlen(argv[1]) / 2;
 
-	free(out);
-	free(asciified);
+	raw = malloc(len);
+	if (!raw)
+		exit(-1);
+	xored = malloc(len);
+	if (!xored)
+		exit(-1);
+	
+	hex_to_data(argv[1], raw);
+	for (int i = 0; i < 256; i++) {
+		xor_single(raw, xored, i, len);
+		printf("%d score for %d\n", score(xored, len), i);
+	}
+
+	free(raw);
+	free(xored);
 	return 0;
 }

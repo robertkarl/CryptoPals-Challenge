@@ -7,16 +7,6 @@ Turn 1 or more hex encoded bytes into base64 encoded data.
 #include <string.h>
 
 #include "common.h"
-static char *base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	"abcdefghijklmnopqrstuvwxyz0123456789+/";
-
-
-/* Encodes 6 bits to base64. */
-char base64word_to_ascii(unsigned c) {
-	assert(c < 64);
-	return base64[c];
-}
-
 /*
 Encode 24 bit chunks of integer into base64.
 invariant: 4 base64 bytes should be written to output sequentially.
@@ -30,7 +20,7 @@ void to_base64(unsigned triplet, char *output, int inbits) {
 	assert(inbits <= 24 && inbits > 0 && (inbits % 8 == 0));
 	while (inbits > 0) {
 		inbits -= 6;
-		c = base64word_to_ascii(
+		c = encode64(
 			(triplet >> shift) & sixbitmask);
 		*(output++) = c;
 		shift -= 6;
