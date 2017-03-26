@@ -43,6 +43,18 @@ unsigned hexbytetointeger(char c) {
 	return c - 97 + 10;
 }
 
+unsigned decode64(char c) {
+	if (c >= 'A' && c <= 'Z')
+		return c - 'A';
+	else if (c >= 'a' && c <= 'z')
+		return 26 + c - 'a';
+	else if (c >= '0' && c <= '9')
+		return 52 + c - '0';
+	else if (c == '+')
+		return 62;
+	return 63;
+}
+
 char int2hex(int i) {
 	if (i < 10)
 		return '0' + i;
@@ -60,10 +72,37 @@ void hex_to_data(char *in, char *out) {
 	}
 }
 
+void write_triplet(char *buffer, unsigned triplet)
+{
+	int i;
+	for (i = 2; i >= 0; i--) {
+		*(buffer + i) = triplet & 255;
+		triplet >>= 8;
+	}
+
+}
+
+void base64_to_data(char *in, char *out)
+{
+	/* four bytes of input is 4 base64 chars. that's 24 bits */
+	char *c = in;
+	unsigned decoded = 0;
+	while (*c) {
+		decoded <<= 6;
+		if (*c != '=') {
+			decoded |= decode64(*c++);
+		}
+		if ((c - in) % 4 == 0) {
+			write_triplet(out, decoded);
+			out += 3;
+		}
+	}
+}
+
 void data2hex(char *in, char*out, int inlen) {
 	int i = 0;
 	while (i++ < inlen) {
-		char cbyte = *in++;
+		unsigned char cbyte = *in++;
 		*out++ = int2hex(cbyte >> 4);
 		*out++ = int2hex(cbyte & 15);
 	}
