@@ -3,13 +3,6 @@
 #include "common.h"
 #define NCHARS 60
 
-void printchars(char *c, int len) {
-	int i;
-	for (i = 0; i < len; i++) {
-		printf("%c", c[i]);
-	}
-}
-
 int main(int argc, char **argv) {
 	FILE *f = fopen(argv[1], "r");
 	char chars[NCHARS + 1];

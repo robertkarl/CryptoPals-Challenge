@@ -6,6 +6,14 @@
 static char *base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	"abcdefghijklmnopqrstuvwxyz0123456789+/";
 
+void printchars(char *c, int len) {
+	int i;
+	for (i = 0; i < len; i++) {
+		printf("%c", c[i]);
+	}
+}
+
+
 int char_in_set(char c, char *charset) {
 	char *curr = charset;
 	do {

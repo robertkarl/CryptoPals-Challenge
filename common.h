@@ -21,6 +21,6 @@ void xor_single(char *input, char *output, char xorkey, unsigned len);
 
 int score(char *text, int len);
 
-void repkey_xor(char *in, char *out, char *key, int len);
-
 int edit_distance(char *, char *, int len);
+
+void printchars(char *c, int len);

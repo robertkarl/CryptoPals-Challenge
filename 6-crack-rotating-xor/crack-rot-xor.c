@@ -47,10 +47,15 @@ void usage(char **argv) {
 }
 
 int main(int argc, char **argv) {
-	char *raw, *out;
+	char *raw, *out, *xored;
 	int datalen;
 	int blocklen;
 	uint8_t *b;
+	int i, j;
+	int keysize;
+	float s;
+	float best;
+	char xorkey = 0;
 
 	if (argc != 2)
 		usage(argv);
@@ -60,17 +65,28 @@ int main(int argc, char **argv) {
 		exit(-1);
 	base64_to_data(argv[1], raw);
 	printf("Imported %d raw bytes\n", datalen);
-	printf("best keysize is %d\n", guess_keysize(raw, datalen));
-	b = alloc_transposed_block((uint8_t *)raw, datalen, 1, 2, &blocklen);
-	printf("transposed block has %d bytes\n", blocklen);
+	keysize = guess_keysize(raw, datalen);
+	printf("best keysize is %d\n", keysize);
+	for (i = 0; i < keysize; i++) {
+		b = alloc_transposed_block((uint8_t *)raw, datalen, i, keysize, &blocklen);
+		xored = malloc(blocklen);
+		best = 1e6;
+		for (j = 0; j < 256; j++) {
+			xor_single((char *)b, xored, j, blocklen);
+			s = ((float)score(xored, blocklen)) / blocklen;
+			if (s < best) {
+				best = s;
+				xorkey = j;
+			}
+		}
+		printf("best score is %f for xor key %d\n", best, xorkey);
+	}
 	out = malloc(2 * blocklen);
 	if (!out)
 		exit(-1);
 	data2hex((char *)b, out, blocklen);
 	printf("transposed block:\n");
 	printf("%s\n", out);
-	free(raw);
-	free(out);
 	return 0;
 }
 

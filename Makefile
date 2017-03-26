@@ -8,17 +8,14 @@ xor: xor.c common.o
 find_xor_key: 4/find_xor_key.c common.o
 	$(CC) -o find_xor_key $(CFLAGS) 4/find_xor_key.c common.o
 
-5: 5/repkey_xor.c common.o
-	$(CC) -o bin/5 $(CFLAGS) 5/repkey_xor.c common.o
+repkey_xor: 5/repkey_xor.c common.o
+	$(CC) -o repkey_xor $(CFLAGS) 5/repkey_xor.c common.o
 
 crack-rot-xor: 6-crack-rotating-xor/crack-rot-xor.c common.o
 	$(CC) -o crack-rot-xor $(CFLAGS) common.o 6-crack-rotating-xor/crack-rot-xor.c
 
 editdistance: 6/editdistance.c common.o
 	$(CC) -o bin/editdistance $(CFLAGS) 6/editdistance.c common.o
-
-repkey_xor: repkey_xor.c common.o
-	$(CC) -o bin/repkey_xor $(CFLAGS) repkey_xor.c common.o
 
 outputscores__3: outputscores__3.c common.o
 	$(CC) $(CFLAGS) -o bin/outputscores__3 outputscores__3.c common.o 
