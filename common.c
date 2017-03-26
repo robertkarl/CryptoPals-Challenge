@@ -90,8 +90,9 @@ void base64_to_data(char *in, char *out)
 	while (*c) {
 		decoded <<= 6;
 		if (*c != '=') {
-			decoded |= decode64(*c++);
+			decoded |= decode64(*c);
 		}
+		c++;
 		if ((c - in) % 4 == 0) {
 			write_triplet(out, decoded);
 			out += 3;
