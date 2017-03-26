@@ -13,6 +13,15 @@ xor: xor.c common.o
 4: 4.c common.o
 	$(CC) -o bin/4 $(CFLAGS) 4.c common.o
 
+5: 5/repkey_xor.c common.o
+	$(CC) -o bin/5 $(CFLAGS) 5/repkey_xor.c common.o
+
+editdistance: 6/editdistance.c common.o
+	$(CC) -o bin/editdistance $(CFLAGS) 6/editdistance.c common.o
+
+repkey_xor: repkey_xor.c common.o
+	$(CC) -o bin/repkey_xor $(CFLAGS) repkey_xor.c common.o
+
 outputscores__3: outputscores__3.c common.o
 	$(CC) $(CFLAGS) -o bin/outputscores__3 outputscores__3.c common.o 
 

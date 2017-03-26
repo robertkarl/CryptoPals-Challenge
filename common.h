@@ -9,6 +9,7 @@ unsigned hexbytetointeger(char c);
 char integer_to_hexbyte(int);
 
 void hex_to_data(char *in, char *out);
+void data2hex(char *in, char *out, int len);
 
 /* Encodes 6 bits to base64. */
 char encode64(unsigned c);
@@ -17,3 +18,7 @@ char encode64(unsigned c);
 void xor_single(char *input, char *output, char xorkey, unsigned len);
 
 int score(char *text, int len);
+
+void repkey_xor(char *in, char *out, char *key, int len);
+
+int edit_distance(char *, char *, int len);

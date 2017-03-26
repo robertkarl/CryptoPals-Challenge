@@ -1,5 +1,6 @@
 #include "common.h"
 #include <stdio.h>
+#include <string.h>
 #include <assert.h>
 
 static char *base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -42,13 +43,13 @@ unsigned hexbytetointeger(char c) {
 	return c - 97 + 10;
 }
 
-char integer_to_hexbyte(int i) {
+char int2hex(int i) {
 	if (i < 10)
 		return '0' + i;
 	return 'a' + i - 10;
 }
 
-void hex_to_data(char *in, char*out) {
+void hex_to_data(char *in, char *out) {
 	unsigned c;
 	while (*in) {
 		unsigned upper = (hexbytetointeger(*in) << 4);
@@ -56,6 +57,15 @@ void hex_to_data(char *in, char*out) {
 		c = upper + lower;
 		*out++ = c;
 		in += 2;
+	}
+}
+
+void data2hex(char *in, char*out, int inlen) {
+	int i = 0;
+	while (i++ < inlen) {
+		char cbyte = *in++;
+		*out++ = int2hex(cbyte >> 4);
+		*out++ = int2hex(cbyte & 15);
 	}
 }
 
@@ -86,5 +96,22 @@ void xor_single(char *input, char *output, char xorkey, unsigned len)
 		c = *input++;
 		*output++ = c ^ xorkey;
 	}
+}
+
+int edit_distance(char *a, char *b, int len)
+{
+	int i;
+	unsigned v;
+	int diff = 0;
+	while (len--) {
+		v = a[len] ^ b[len];
+		for (i = 0; i < 8; i++) {
+			if (v & 1)
+				diff++;
+			v >>= 1;
+		}
+			
+	}
+	return diff;
 }
 
