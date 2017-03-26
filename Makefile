@@ -5,8 +5,8 @@ DEPS = common.h
 xor: xor.c common.o
 	$(CC) -o bin/xor $(CFLAGS) xor.c common.o
 
-4: 4.c common.o
-	$(CC) -o bin/4 $(CFLAGS) 4.c common.o
+find_xor_key: 4/find_xor_key.c common.o
+	$(CC) -o find_xor_key $(CFLAGS) 4/find_xor_key.c common.o
 
 5: 5/repkey_xor.c common.o
 	$(CC) -o bin/5 $(CFLAGS) 5/repkey_xor.c common.o
@@ -34,4 +34,6 @@ common.o: common.c common.h
 clean:
 	rm -f bin/*
 	rm -f *.o
-	rm -f hex2base64
+	rm -f find_xor_key
+
+.PHONY: clean

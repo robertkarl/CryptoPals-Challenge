@@ -84,7 +84,7 @@ void write_triplet(char *buffer, unsigned triplet)
 
 void base64_to_data(char *in, char *out)
 {
-	/* four bytes of input is 4 base64 chars. that's 24 bits */
+	/* four bytes of input is 4 base64 chars. that's 24 bits of out */
 	char *c = in;
 	unsigned decoded = 0;
 	while (*c) {

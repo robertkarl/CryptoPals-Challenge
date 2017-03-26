@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "common.h"
-
 #define NCHARS 60
 
 void printchars(char *c, int len) {
@@ -9,7 +8,6 @@ void printchars(char *c, int len) {
 	for (i = 0; i < len; i++) {
 		printf("%c", c[i]);
 	}
-	printf("\n");
 }
 
 int main(int argc, char **argv) {
@@ -31,11 +29,11 @@ int main(int argc, char **argv) {
 		for (j = 0; j < 256; j++) {
 			xor_single(raw, xored, j, NCHARS / 2);
 			s = score(xored, NCHARS / 2);
-			if (s < 400) {
-				printchars(xored, NCHARS / 2);
-				printf("%s\n", chars);
-				printf("%03d with key %d at file index %d\n",
-					s, j, i);
+			if (s < 700) {
+				printchars(xored, NCHARS / 2 - 1);
+				printf(" (score is %f at index %d)\n",
+					((float)s) / NCHARS,
+					i);
 			}
 		}
 	}
