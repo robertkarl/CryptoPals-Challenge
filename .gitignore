@@ -5,5 +5,6 @@
 bin/
 .gdb*
 hextobase64
+hextoascii
 crack-rot-xor
 repkey_xor

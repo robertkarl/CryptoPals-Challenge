@@ -26,6 +26,9 @@ base64tohex: util/base64tohex.c common.o
 hextobase64: util/hextobase64.c common.o
 	$(CC) -o hextobase64 $(CFLAGS) util/hextobase64.c common.o
 
+hextoascii: util/hextoascii.c common.o
+	$(CC) -o hextoascii util/hextoascii.c common.o -I.
+
 common.o: common.c common.h
 	$(CC) -c $(CFLAGS) common.c
 clean:
