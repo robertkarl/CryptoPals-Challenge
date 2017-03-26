@@ -11,8 +11,8 @@ find_xor_key: 4/find_xor_key.c common.o
 5: 5/repkey_xor.c common.o
 	$(CC) -o bin/5 $(CFLAGS) 5/repkey_xor.c common.o
 
-six: 6/6.c common.o
-	$(CC) -o bin/6 $(CFLAGS) 6/6.c common.o
+crack-rot-xor: 6-crack-rotating-xor/crack-rot-xor.c common.o
+	$(CC) -o crack-rot-xor $(CFLAGS) common.o 6-crack-rotating-xor/crack-rot-xor.c
 
 editdistance: 6/editdistance.c common.o
 	$(CC) -o bin/editdistance $(CFLAGS) 6/editdistance.c common.o
@@ -27,7 +27,7 @@ base64tohex: util/base64tohex.c common.o
 	$(CC) -o bin/base64tohex $(CFLAGS) util/base64tohex.c common.o
 
 hextobase64: util/hextobase64.c common.o
-	$(CC) -o bin/hextobase64 $(CFLAGS) util/hextobase64.c common.o
+	$(CC) -o hextobase64 $(CFLAGS) util/hextobase64.c common.o
 
 common.o: common.c common.h
 	$(CC) -c $(CFLAGS) common.c

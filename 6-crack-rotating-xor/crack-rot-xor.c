@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include "common.h"
@@ -25,14 +26,32 @@ int guess_keysize(char *in, int len) {
 	return bestindex;
 }
 
+uint8_t *alloc_transposed_block(uint8_t *in, int inlen, int index, 
+	int cipherlen, int *blocklen) {
+	uint8_t *ans = malloc(*blocklen);
+	uint8_t *c = ans;
+	*blocklen = inlen / cipherlen;
+	if (!ans)
+		return NULL;
+	while (c < ans + *blocklen) {
+		*c++ = *(in + index);
+		in += cipherlen;
+	}
+	return ans;
+
+}
+
 void usage(char **argv) {
 	printf("usage: %s cyphertext\n", argv[0]);
 	exit(-1);
 }
 
 int main(int argc, char **argv) {
-	char *raw;
+	char *raw, *out;
 	int datalen;
+	int blocklen;
+	uint8_t *b;
+
 	if (argc != 2)
 		usage(argv);
 	datalen = 3 * strlen(argv[1]) / 4;
@@ -40,8 +59,18 @@ int main(int argc, char **argv) {
 	if (!raw)
 		exit(-1);
 	base64_to_data(argv[1], raw);
-	printf("%d\n", guess_keysize(raw, datalen));
+	printf("Imported %d raw bytes\n", datalen);
+	printf("best keysize is %d\n", guess_keysize(raw, datalen));
+	b = alloc_transposed_block((uint8_t *)raw, datalen, 1, 2, &blocklen);
+	printf("transposed block has %d bytes\n", blocklen);
+	out = malloc(2 * blocklen);
+	if (!out)
+		exit(-1);
+	data2hex((char *)b, out, blocklen);
+	printf("transposed block:\n");
+	printf("%s\n", out);
 	free(raw);
+	free(out);
 	return 0;
 }
 

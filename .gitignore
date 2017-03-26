@@ -4,3 +4,5 @@
 *.breakpoints
 bin/
 .gdb*
+hextobase64
+crack-rot-xor
