@@ -69,6 +69,7 @@ int main(int argc, char **argv) {
 	printf("Imported %d raw bytes\n", datalen);
 	keysize = guess_keysize((char *)raw, datalen);
 	printf("best keysize found is %d\n", keysize);
+	keysize = 29;
 	printf("key sequence is ");
 	for (i = 0; i < keysize; i++) {
 		b = alloc_transposed_block((uint8_t *)raw, datalen, i, keysize, &blocklen);

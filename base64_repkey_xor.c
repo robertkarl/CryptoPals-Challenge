@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
 	raw = malloc(rawlen);
 	cypher = malloc(rawlen);
 	base64_to_data(argv[1], raw);
-	repkey_xor(raw, rawlen, cypher, "ioiio", 5);
+	repkey_xor(raw, rawlen, cypher, argv[2], strlen(argv[2]));
 	for (i = 0; i < rawlen; i++)
 		printf("%c", cypher[i]);
 	return -1;
