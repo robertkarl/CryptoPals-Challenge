@@ -8,15 +8,6 @@ void usage(char **argv) {
 	exit(-1);
 }
 
-void repkey_xor(uint8_t *in, int clearlen, uint8_t *out, char *key, int keylen)
-{
-	int i = 0;
-	int cypher_index = 0;
-	int cypherlen = strlen(key);
-	for (i = 0; i < clearlen; i++)
-		*out++ = *in++ ^ key[cypher_index++ % cypherlen];
-}
-
 int main(int argc, char **argv) {
 	int len;
 	uint8_t *raw, *cypher;

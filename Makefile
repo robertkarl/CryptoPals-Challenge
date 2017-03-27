@@ -11,6 +11,9 @@ find_xor_key: 4/find_xor_key.c common.o
 repkey_xor: 5/repkey_xor.c common.o
 	$(CC) -o repkey_xor $(CFLAGS) 5/repkey_xor.c common.o
 
+hex_repkey_xor: 5/hex_repkey_xor.c common.o
+	$(CC) -o hex_repkey_xor $(CFLAGS) 5/hex_repkey_xor.c common.o
+
 base64_repkey_xor: base64_repkey_xor.c common.o
 	$(CC) -o base64_repkey_xor $(CFLAGS) base64_repkey_xor.c common.o
 
