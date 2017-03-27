@@ -13,6 +13,13 @@ void printchars(char *c, int len) {
 	}
 }
 
+void repkey_xor(uint8_t *in, int clearlen, uint8_t *out, char *key, int keylen)
+{
+	int i;
+	int cypher_index = 0;
+	for (i = 0; i < clearlen; i++)
+		*out++ = *in++ ^ key[cypher_index++ % keylen];
+}
 
 int char_in_set(char c, char *charset) {
 	char *curr = charset;

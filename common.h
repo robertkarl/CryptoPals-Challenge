@@ -8,6 +8,8 @@ garbage otherwise.
 */
 unsigned hexbytetointeger(char c);
 
+void repkey_xor(uint8_t *in, int clearlen, uint8_t *out, char *key, int keylen);
+
 char integer_to_hexbyte(int);
 
 void hex_to_data(char *in, char *out);
