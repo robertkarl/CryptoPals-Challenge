@@ -8,7 +8,7 @@ void usage(char **argv) {
 	exit(-1);
 }
 
-void repkey_xor(char *in, int clearlen, char *out, char *key, int keylen)
+void repkey_xor(uint8_t *in, int clearlen, uint8_t *out, char *key, int keylen)
 {
 	int i = 0;
 	int cypher_index = 0;
@@ -19,9 +19,9 @@ void repkey_xor(char *in, int clearlen, char *out, char *key, int keylen)
 
 int main(int argc, char **argv) {
 	int len;
-	char *cypher, *coded;
-	uint8_t *raw;
+	uint8_t *raw, *cypher;
 	int rawlen;
+	int i;
 
 	if (argc != 3)
 		usage(argv);
@@ -32,7 +32,8 @@ int main(int argc, char **argv) {
 	cypher = malloc(rawlen);
 	base64_to_data(argv[1], raw);
 	repkey_xor(raw, rawlen, cypher, "ioiio", 5);
-	printf("%s\n", cypher);
+	for (i = 0; i < rawlen; i++)
+		printf("%c", cypher[i]);
 	return -1;
 }
 
