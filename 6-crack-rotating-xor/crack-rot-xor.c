@@ -8,15 +8,13 @@
 
 int guess_keysize(char *in, int len) {
 	int i;
-	int d1, d2, d3;
+	int d1;
 	float guess;
 	float bestguess = 1e6;
 	int bestindex = -1;
 	for (i = 2; i < MAX_KEYSIZE; i++) {
 		d1 = edit_distance(in, in + i, i);
-		d2 = edit_distance(in, in + 2 * i, i);
-		d3 = edit_distance(in + i, in + 2 *i, i);
-		guess = ((float)(d1 + d2 + d3)) / (3 * i);
+		guess = ((float)d1)/ i;
 		printf("distance %d at index %d. normalized: %f\n", d1, i, guess);
 		if (guess < bestguess) {
 			bestguess = guess;
@@ -50,7 +48,8 @@ void usage(char **argv) {
 }
 
 int main(int argc, char **argv) {
-	char *raw, *out, *xored;
+	char *xored;
+	uint8_t *raw;
 	int datalen;
 	int blocklen;
 	uint8_t *b;
@@ -68,11 +67,11 @@ int main(int argc, char **argv) {
 		exit(-1);
 	base64_to_data(argv[1], raw);
 	printf("Imported %d raw bytes\n", datalen);
-	keysize = guess_keysize(raw, datalen);
-	printf("best keysize is %d\n", keysize);
+	keysize = guess_keysize((char *)raw, datalen);
+	printf("best keysize found is %d\n", keysize);
+	printf("key sequence is ");
 	for (i = 0; i < keysize; i++) {
 		b = alloc_transposed_block((uint8_t *)raw, datalen, i, keysize, &blocklen);
-		printf("each block has %d bytes\n", blocklen);
 		xored = malloc(blocklen);
 		best = 1e6;
 		for (j = 0; j < 256; j++) {
@@ -81,19 +80,11 @@ int main(int argc, char **argv) {
 			if (s < best) {
 				best = s;
 				xorkey = j;
-				if (s < 45) {
-				printchars(xored, blocklen);
-				printf("\nbest score is %f for xor key %d\n\n\n", best, xorkey);
-				}
 			}
 		}
+		printf("%c", xorkey);
 	}
-	out = malloc(2 * blocklen);
-	if (!out)
-		exit(-1);
-	data2hex((char *)b, out, blocklen);
-	printf("transposed block:\n");
-	printf("%s\n", out);
+	printf("\n");
 	return 0;
 }
 

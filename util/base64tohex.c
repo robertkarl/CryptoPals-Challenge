@@ -10,7 +10,8 @@ void usage(char **argv) {
 
 int main(int argc, char **argv) {
 	int len;
-	char *raw, *out;
+	char *out;
+	uint8_t *raw;
 	if (argc != 2)
 		usage(argv);
 	if (strlen(argv[1]) % 4)
@@ -23,7 +24,7 @@ int main(int argc, char **argv) {
 	if (!out)
 		exit(-1);
 	base64_to_data(argv[1], raw);
-	data2hex(raw, out, len);
+	data2hex((char *)raw, out, len);
 	printf("%s\n", out);
 	return -1;
 }

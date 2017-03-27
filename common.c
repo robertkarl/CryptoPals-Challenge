@@ -80,7 +80,7 @@ void hex_to_data(char *in, char *out) {
 	}
 }
 
-void write_triplet(char *buffer, unsigned triplet)
+void write_triplet(uint8_t *buffer, unsigned triplet)
 {
 	int i;
 	for (i = 2; i >= 0; i--) {
@@ -90,10 +90,10 @@ void write_triplet(char *buffer, unsigned triplet)
 
 }
 
-void base64_to_data(uint8_t *in, uint8_t *out)
+void base64_to_data(char *in, uint8_t *out)
 {
 	/* four bytes of input is 4 base64 chars. that's 24 bits of out */
-	uint8_t *c = in;
+	char *c = in;
 	unsigned decoded = 0;
 	while (*c) {
 		decoded <<= 6;
