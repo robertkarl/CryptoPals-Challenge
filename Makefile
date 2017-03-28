@@ -48,7 +48,7 @@ test: all
 
 clean:
 	rm *.o
-	rm find_xor_key hextobase64 base64tohex test editdistance xor xorchar crack-rot-xor hextoascii hex_repkey_xor
+	rm find_xor_key hextobase64 base64tohex test editdistance xor xorchar crack-rot-xor hextoascii hex_repkey_xor base64_repkey_xor repkey_xor
 
 .PHONY: clean all
 

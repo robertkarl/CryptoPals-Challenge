@@ -4,9 +4,3 @@
 *.breakpoints
 bin/
 .gdb*
-hextobase64
-hextoascii
-crack-rot-xor
-repkey_xor
-a.out
-base64_repkey_xor
