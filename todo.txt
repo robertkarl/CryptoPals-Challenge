@@ -1,7 +1,6 @@
-[ ] Check that guessing the length is working properly
-	[ ] check that edit distance is working (?)
-	[ ] it seems that guessing the length is not working. averaging and using different blocks leads to very different results.
+[ ] Update utils to use stdin or a file. start with xor char.
+	cat f | xorchar c
+	xorchar c --file 
+	[ ] Finish adding targets to `make all` and add some code to make test
+[ ] See about compiling ssl lib, or importing that shit with python
 
-[x] check that transpose is working 
-	[x] - looks OK. checked by passedin 0x01, 0x02, 0x03...0x09 into transpose and checking outputs 0,3  1,3   2,3 for (index,cipherlen)
-[ ] check that xoring is working 

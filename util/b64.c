@@ -3,6 +3,7 @@ Turn 1 or more hex encoded bytes into base64 encoded data.
 */
 #include <assert.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -30,39 +31,33 @@ void to_base64(unsigned triplet, char *output, int inbits) {
 }
 
 void usage(char **argv) {
-	printf("usage: %s hexdata\n", argv[0]);
-	printf("input must be 1 or more bytes hex encoded\n");
+	printf("usage: %s\n", argv[0]);
+	printf("reads arbitrary data from stdin and outputs base64 encoded version to stdout\n");
 	exit(-1);
 }
 
 int main(int argc, char **argv) {
-	char *input;
-	int inlen;
 	unsigned septet = 0;
 	int triplet_offset = 0;
-	unsigned c;
-	char converted[4];
+	int c;
+	char encoded[4];
 
-	if (argc != 2)
-		usage(argv);
-	input = argv[1];
-	inlen = strlen(input);
-	if (inlen % 2)
+	if (argc != 1)
 		usage(argv);
 
-	while ((c = *input++)) {
-		unsigned bitoffset = 4 * (5 - triplet_offset++);
-		septet += (hexbytetointeger(c) << bitoffset);
-		if (triplet_offset >= 6) {
-			to_base64(septet, converted, 24);
-			printf("%.4s", converted);
+	while ((c = fgetc(stdin)) != EOF) {
+		unsigned bitoffset = 8 * (2 - triplet_offset++);
+		septet += c << bitoffset;
+		if (triplet_offset >= 3) {
+			to_base64(septet, encoded, 24);
+			printf("%.4s", encoded);
 			triplet_offset = 0;
 			septet = 0;
 		}
 	}
 	if (triplet_offset) {
-		to_base64(septet, converted, 8 * (triplet_offset / 2));
-		printf("%.4s", converted);
+		to_base64(septet, encoded, 8 * triplet_offset); /* todo: this is a guess */
+		printf("%.4s", encoded);
 	}
 	printf("\n");
 	return 0;
