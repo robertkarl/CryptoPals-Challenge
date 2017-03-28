@@ -90,11 +90,9 @@ void hex_to_data(char *in, char *out) {
 void write_triplet(uint8_t *buffer, unsigned triplet)
 {
 	int i;
-	for (i = 2; i >= 0; i--) {
-		*(buffer + i) = triplet & 255;
-		triplet >>= 8;
+	for (i = 0; i < 3; i++) {
+		*buffer++ = 255 & (triplet >> (8 * (2 - i)));
 	}
-
 }
 
 void base64_to_data(char *in, uint8_t *out)

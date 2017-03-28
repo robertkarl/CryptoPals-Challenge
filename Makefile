@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS = -I. -Wstrict-prototypes -Wall -g -pedantic -ansi
 DEPS = common.h
 
-all: xor base64_repkey_xor hextobase64 xorchar repkey_xor hex_repkey_xor editdistance hextoascii crack-rot-xor find_xor_key b64
+all: xor base64_repkey_xor xorchar repkey_xor hex_repkey_xor editdistance hextoascii crack-rot-xor find_xor_key b64
 
 xor: xor.c common.o
 	$(CC) -o xor $(CFLAGS) xor.c common.o
@@ -32,7 +32,7 @@ outputscores__3: outputscores__3.c common.o
 	$(CC) $(CFLAGS) -o outputscores__3 outputscores__3.c common.o 
 
 hextoascii: util/hextoascii.c common.o
-	$(CC) -o hextoascii util/hextoascii.c common.o
+	$(CC) -I. -o hextoascii util/hextoascii.c common.o
 
 b64: util/b64.c common.o
 	$(CC) $(CFLAGS) -o b64 util/b64.c common.o
