@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
 		usage(argv);
 	do {
 		unsigned outval = hexbytetointeger(*a++) ^ hexbytetointeger(*b++);
-		printf("%c", integer_to_hexbyte(outval));
+		printf("%c", int2hex(outval));
 	} while (*a);
 	printf("\n");
 	return 0;

@@ -2,8 +2,13 @@ CC=gcc
 CFLAGS = -I. -Wstrict-prototypes -Wall -g -pedantic -ansi
 DEPS = common.h
 
+all: xor base64tohex hextobase64 xorchar repkey_xor hex_repkey_xor editdistance hextoascii crack-rot-xor
+
 xor: xor.c common.o
-	$(CC) -o bin/xor $(CFLAGS) xor.c common.o
+	$(CC) -o xor $(CFLAGS) xor.c common.o
+
+xorchar: xorchar.c common.o
+	$(CC) -o xorchar $(CFLAGS) xorchar.c common.o
 
 find_xor_key: 4/find_xor_key.c common.o
 	$(CC) -o find_xor_key $(CFLAGS) 4/find_xor_key.c common.o
@@ -20,14 +25,14 @@ base64_repkey_xor: base64_repkey_xor.c common.o
 crack-rot-xor: 6-crack-rotating-xor/crack-rot-xor.c common.o
 	$(CC) -o crack-rot-xor $(CFLAGS) common.o 6-crack-rotating-xor/crack-rot-xor.c
 
-editdistance: 6/editdistance.c common.o
-	$(CC) -o bin/editdistance $(CFLAGS) 6/editdistance.c common.o
+editdistance: util/editdistance.c common.o
+	$(CC) -o editdistance $(CFLAGS) util/editdistance.c common.o
 
 outputscores__3: outputscores__3.c common.o
-	$(CC) $(CFLAGS) -o bin/outputscores__3 outputscores__3.c common.o 
+	$(CC) $(CFLAGS) -o outputscores__3 outputscores__3.c common.o 
 
 base64tohex: util/base64tohex.c common.o
-	$(CC) -o bin/base64tohex $(CFLAGS) util/base64tohex.c common.o
+	$(CC) -o base64tohex $(CFLAGS) util/base64tohex.c common.o
 
 hextobase64: util/hextobase64.c common.o
 	$(CC) -o hextobase64 $(CFLAGS) util/hextobase64.c common.o
@@ -37,9 +42,13 @@ hextoascii: util/hextoascii.c common.o
 
 common.o: common.c common.h
 	$(CC) -c $(CFLAGS) common.c
-clean:
-	rm -f bin/*
-	rm -f *.o
-	rm -f find_xor_key
 
-.PHONY: clean
+test: all
+	touch test
+
+clean:
+	rm *.o
+	rm find_xor_key hextobase64 base64tohex test editdistance xor xorchar crack-rot-xor hextoascii hex_repkey_xor
+
+.PHONY: clean all
+

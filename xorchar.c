@@ -8,6 +8,7 @@ int main(int argc, char **argv) {
 	char *xored = 0;
 	int len = strlen(argv[1]) / 2;
 	int xorkey = atoi(argv[2]);
+	int i;
 
 	raw = malloc(len);
 	xored = malloc(len);
@@ -15,10 +16,9 @@ int main(int argc, char **argv) {
 	hex_to_data(argv[1], raw);
 	
 	xor_single(raw, xored, xorkey, len);
-	for (int i = 0; i < len; i++) {
+	for (i = 0; i < len; i++) {
 		printf("%c", xored[i]);
 	}
 	printf("\n");
-
 	return 0;
 }

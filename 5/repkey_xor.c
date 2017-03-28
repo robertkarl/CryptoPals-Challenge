@@ -8,26 +8,17 @@ void usage(char **argv) {
 	exit(-1);
 }
 
-void repkey_xor(char *in, int clearlen, char *out, char *key, int keylen)
-{
-	int i = 0;
-	int cypher_index = 0;
-	int cypherlen = strlen(key);
-	for (i = 0; i < clearlen; i++)
-		*out++ = *in++ ^ key[cypher_index++ % cypherlen];
-}
-
 int main(int argc, char **argv) {
 	int len;
-	char *cypher, *coded;
+	uint8_t *cypher, *coded;
 	if (argc != 3)
 		usage(argv);
 	len = strlen(argv[1]);
 	cypher = malloc(len);
 	coded = malloc(2 * len);
 
-	repkey_xor(argv[1], strlen(argv[1]), cypher, argv[2], strlen(argv[2]));
-	data2hex(cypher, coded, len);
+	repkey_xor((uint8_t *)argv[1], strlen(argv[1]), cypher, argv[2], strlen(argv[2]));
+	data2hex((char *)cypher, (char *)coded, len);
 	printf("%s\n", coded);
 	
 	return -1;

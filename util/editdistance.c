@@ -4,21 +4,21 @@
 #include "common.h"
 
 void usage(char **argv) {
-	printf("usage: %s str1 str2\n", argv[0]);
-	printf("strings must be same length\n");
+	printf("usage: %s string1 string2\n", argv[0]);
+	printf("requires two args of the same length\n");
 	exit(-1);
 }
 
 int main(int argc, char **argv) {
-	char *a, *b;
+	char *in1, *in2;
+	int len;
 	if (argc != 3)
 		usage(argv);
-	a = argv[1];
-	b = argv[2];
-	printf("a has length %d and b has length %d\n", strlen(a), strlen(b));
-	if (strlen(a) != strlen(b))
+	in1 = argv[1];
+	in2 = argv[2];
+	len = strlen(in1);
+	if (len != strlen(in2))
 		usage(argv);
-	printf("%d\n", edit_distance(a, b, strlen(a)));
-	exit(-1);
+	printf("%d\n", edit_distance(in1, in2, len));
+	return 0;
 }
-
