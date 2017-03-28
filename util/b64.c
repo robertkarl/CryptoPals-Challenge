@@ -8,6 +8,14 @@ Turn 1 or more hex encoded bytes into base64 encoded data.
 #include <string.h>
 
 #include "common.h"
+
+void usage(char **argv) {
+	printf("usage: %s [--decode]\n", argv[0]);
+	printf("reads arbitrary data from stdin and outputs base64 encoded version to stdout\n");
+	printf("if --decode is specified decode from stdin instead\n");
+	exit(-1);
+}
+
 /*
 Encode 24 bit chunks of integer into base64.
 invariant: 4 base64 bytes should be written to output sequentially.
@@ -30,20 +38,12 @@ void to_base64(unsigned triplet, char *output, int inbits) {
 		*output++ = '=';
 }
 
-void usage(char **argv) {
-	printf("usage: %s\n", argv[0]);
-	printf("reads arbitrary data from stdin and outputs base64 encoded version to stdout\n");
-	exit(-1);
-}
+void encode(FILE *in, FILE *out) {
 
-int main(int argc, char **argv) {
 	unsigned septet = 0;
 	int triplet_offset = 0;
 	int c;
 	char encoded[4];
-
-	if (argc != 1)
-		usage(argv);
 
 	while ((c = fgetc(stdin)) != EOF) {
 		unsigned bitoffset = 8 * (2 - triplet_offset++);
@@ -60,5 +60,26 @@ int main(int argc, char **argv) {
 		printf("%.4s", encoded);
 	}
 	printf("\n");
+
+}
+
+void decode(FILE *in, FILE *out) {
+
+}
+
+int main(int argc, char **argv) {
+	switch (argc) {
+	case 1:
+		encode(stdin, stdout);
+		break;
+	case 2:
+		if (strcmp(argv[1], "--decode"))
+			usage(argv);
+		decode(stdin, stdout);
+		break;
+	default:
+		usage(argv);
+	}
 	return 0;
 }
+
