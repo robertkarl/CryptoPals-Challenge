@@ -16,6 +16,30 @@ void usage(char **argv) {
 	exit(-1);
 }
 
+void write_triplet(FILE *file, unsigned triplet)
+{
+	int i;
+	for (i = 0; i < 3; i++)
+		putc(255 & (triplet >> (8 * (2 - i))), file);
+}
+
+void base64_to_data(char *in, FILE *file)
+{
+	/* four bytes of input is 4 base64 chars. that's 24 bits of out */
+	char *c = in;
+	unsigned decoded = 0;
+	while (*c) {
+		decoded <<= 6;
+		if (*c != '=') {
+			decoded |= decode64(*c);
+		}
+		c++;
+		if ((c - in) % 4 == 0) {
+			write_triplet(file, decoded);
+		}
+	}
+}
+
 /*
 Encode 24 bit chunks of integer into base64.
 invariant: 4 base64 bytes should be written to output sequentially.
@@ -64,7 +88,21 @@ void encode(FILE *in, FILE *out) {
 }
 
 void decode(FILE *in, FILE *out) {
-
+	/* read four bytes, then use print_triplet to spit out 3 bytes */
+	int c;
+	int quartet_index = 0;
+	char quartet[5];
+	quartet[4] = 0;
+	while ((c = getc(in)) != EOF) {
+		if (c == ' ' || c == '\n')
+			continue;
+		quartet[quartet_index++] = c;
+		if (quartet_index == 4) {
+			base64_to_data(quartet, out);
+			quartet_index = 0;
+		}
+	}
+	assert(quartet_index == 0);
 }
 
 int main(int argc, char **argv) {

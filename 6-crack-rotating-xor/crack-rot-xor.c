@@ -1,8 +1,8 @@
-#include <stdio.h>
+#include "common.h"
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "common.h"
 
 #define MAX_KEYSIZE 40
 
@@ -65,7 +65,9 @@ int main(int argc, char **argv) {
 	raw = malloc(datalen);
 	if (!raw)
 		exit(-1);
-	base64_to_data(argv[1], raw);
+	exit(-1);
+	/* Make sure input is raw and taken from stdin*/
+	/* base64_to_data(argv[1], raw); */
 	printf("Imported %d raw bytes\n", datalen);
 	keysize = guess_keysize((char *)raw, datalen);
 	printf("best keysize found is %d\n", keysize);

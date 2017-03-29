@@ -87,32 +87,6 @@ void hex_to_data(char *in, char *out) {
 	}
 }
 
-void write_triplet(uint8_t *buffer, unsigned triplet)
-{
-	int i;
-	for (i = 0; i < 3; i++) {
-		*buffer++ = 255 & (triplet >> (8 * (2 - i)));
-	}
-}
-
-void base64_to_data(char *in, uint8_t *out)
-{
-	/* four bytes of input is 4 base64 chars. that's 24 bits of out */
-	char *c = in;
-	unsigned decoded = 0;
-	while (*c) {
-		decoded <<= 6;
-		if (*c != '=') {
-			decoded |= decode64(*c);
-		}
-		c++;
-		if ((c - in) % 4 == 0) {
-			write_triplet(out, decoded);
-			out += 3;
-		}
-	}
-}
-
 void data2hex(char *in, char*out, int inlen) {
 	int i = 0;
 	while (i++ < inlen) {

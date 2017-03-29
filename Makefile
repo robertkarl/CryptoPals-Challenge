@@ -19,9 +19,6 @@ repkey_xor: 5/repkey_xor.c common.o
 hex_repkey_xor: 5/hex_repkey_xor.c common.o
 	$(CC) -o hex_repkey_xor $(CFLAGS) 5/hex_repkey_xor.c common.o
 
-base64_repkey_xor: base64_repkey_xor.c common.o
-	$(CC) -o base64_repkey_xor $(CFLAGS) base64_repkey_xor.c common.o
-
 crack-rot-xor: 6-crack-rotating-xor/crack-rot-xor.c common.o
 	$(CC) -o crack-rot-xor $(CFLAGS) common.o 6-crack-rotating-xor/crack-rot-xor.c
 
