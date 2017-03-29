@@ -28,6 +28,12 @@ b64: util/b64.c common.o
 hex: util/hex.c common.o
 	$(CC) $(CFLAGS) -o hex util/hex.c common.o
 
+aes.o: 7-aes/aes.c
+	$(CC) -c -g -Wall -pedantic -Wstrict-prototypes 7-aes/aes.c
+
+7: 7-aes/7.c aes.o common.o
+	$(CC) $(CFLAGS) -o 7 7-aes/7.c aes.o common.o
+
 common.o: common.c common.h
 	$(CC) -c $(CFLAGS) common.c
 
