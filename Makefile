@@ -2,19 +2,13 @@ CC=gcc
 CFLAGS = -I. -Wstrict-prototypes -Wall -g -pedantic -ansi
 DEPS = common.h
 
-all: xor repkey_xor hex_repkey_xor editdistance hextoascii crack-rot-xor find_xor_key b64
-
-xor: xor.c common.o
-	$(CC) -o xor $(CFLAGS) xor.c common.o
+all: xor editdistance hextoascii crack-rot-xor find_xor_key b64
 
 find_xor_key: 4/find_xor_key.c common.o
 	$(CC) -o find_xor_key $(CFLAGS) 4/find_xor_key.c common.o
 
-repkey_xor: 5/repkey_xor.c common.o
-	$(CC) -o repkey_xor $(CFLAGS) 5/repkey_xor.c common.o
-
-hex_repkey_xor: 5/hex_repkey_xor.c common.o
-	$(CC) -o hex_repkey_xor $(CFLAGS) 5/hex_repkey_xor.c common.o
+xor: util/xor.c common.o
+	$(CC) -o xor $(CFLAGS) util/xor.c common.o
 
 crack-rot-xor: 6-crack-rotating-xor/crack-rot-xor.c common.o
 	$(CC) -o crack-rot-xor $(CFLAGS) common.o 6-crack-rotating-xor/crack-rot-xor.c
@@ -42,7 +36,7 @@ test: all
 
 clean:
 	rm -f common.o
-	rm -f test find_xor_key b64 test editdistance xor crack-rot-xor hextoascii hex_repkey_xor repkey_xor b64
+	rm -f test find_xor_key b64 test editdistance xor crack-rot-xor hextoascii b64
 
 .PHONY: clean all
 
