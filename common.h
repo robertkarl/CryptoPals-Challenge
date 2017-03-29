@@ -12,7 +12,6 @@ void repkey_xor(uint8_t *in, int clearlen, uint8_t *out, char *key, int keylen);
 
 char int2hex(int);
 
-void hex_to_data(char *in, char *out);
 void data2hex(char *in, char *out, int len);
 
 /* Encodes 6 bits to base64. */
