@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS = -I. -Wstrict-prototypes -Wall -g -pedantic -ansi
 DEPS = common.h
 
-all: xor editdistance hextoascii crack-rot-xor find_xor_key b64
+all: xor editdistance hextoascii crack-rot-xor find_xor_key b64 hex
 
 find_xor_key: 4/find_xor_key.c common.o
 	$(CC) -o find_xor_key $(CFLAGS) 4/find_xor_key.c common.o
@@ -36,7 +36,7 @@ test: all
 
 clean:
 	rm -f common.o
-	rm -f test find_xor_key b64 test editdistance xor crack-rot-xor hextoascii b64
+	rm -f test find_xor_key test editdistance xor crack-rot-xor hextoascii b64 hex
 
 .PHONY: clean all
 
