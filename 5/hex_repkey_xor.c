@@ -10,16 +10,15 @@ void usage(char **argv) {
 
 int main(int argc, char **argv) {
 	int len;
-	uint8_t *cypher, *raw;
+	uint8_t *output;
+
 	if (argc != 3)
 		usage(argv);
-	len = strlen(argv[1]);
-	raw = malloc(len / 2);
-	cypher = malloc(len / 2);
-	hex_to_data(argv[1], (char *)raw);
 
-	repkey_xor(raw, len / 2, cypher, argv[2], strlen(argv[2]));
-	printf("%s\n", cypher);
+	len = strlen(argv[1]);
+	output = malloc(len / 2);
+	repkey_xor((uint8_t *)argv[1], len, output, argv[2], strlen(argv[2]));
+	printf("%s\n", output);
 	
 	return -1;
 }

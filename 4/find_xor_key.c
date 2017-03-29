@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "common.h"
+
 #define NCHARS 60
 
 int main(int argc, char **argv) {

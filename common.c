@@ -76,6 +76,17 @@ char int2hex(int i) {
 	return 'a' + i - 10;
 }
 
+void hex_to_data(char *in, char *out) {
+	unsigned c;
+	while (*in) {
+		unsigned upper = (hexbytetointeger(*in) << 4);
+		unsigned lower = hexbytetointeger(*(in + 1));
+		c = upper + lower;
+		*out++ = c;
+		in += 2;
+	}
+}
+
 void data2hex(char *in, char*out, int inlen) {
 	int i = 0;
 	while (i++ < inlen) {
