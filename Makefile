@@ -32,11 +32,16 @@ common.o: common.c common.h
 	$(CC) -c $(CFLAGS) common.c
 
 test: all
+	$(info here's some shit)
+	./b64 < testfiles/lyrics.txt > lyrics.base64
+	./b64 --decode < lyrics.base64 > same.lyrics.txt
+	diff testfiles/lyrics.txt same.lyrics.txt
 	touch test
 
 clean:
 	rm -f common.o
 	rm -f test find_xor_key test editdistance xor crack-rot-xor hextoascii b64 hex
+	rm -f same.lyrics.txt lyrics.base64
 
 .PHONY: clean all
 
