@@ -16,10 +16,10 @@ void usage(char **argv) {
 	exit(-1);
 }
 
-void write_triplet(FILE *file, unsigned triplet)
+void write_triplet(FILE *file, unsigned triplet, int blankbytes)
 {
 	int i;
-	for (i = 0; i < 3; i++)
+	for (i = 0; i < 3 - blankbytes; i++)
 		putc(255 & (triplet >> (8 * (2 - i))), file);
 }
 
@@ -28,14 +28,18 @@ void base64_to_data(char *in, FILE *file)
 	/* four bytes of input is 4 base64 chars. that's 24 bits of out */
 	char *c = in;
 	unsigned decoded = 0;
+	int blankbytes = 0;
 	while (*c) {
 		decoded <<= 6;
 		if (*c != '=') {
 			decoded |= decode64(*c);
 		}
+		else {
+			blankbytes++;
+		}
 		c++;
 		if ((c - in) % 4 == 0) {
-			write_triplet(file, decoded);
+			write_triplet(file, decoded, blankbytes);
 		}
 	}
 }

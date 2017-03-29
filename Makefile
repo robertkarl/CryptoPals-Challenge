@@ -32,9 +32,8 @@ common.o: common.c common.h
 	$(CC) -c $(CFLAGS) common.c
 
 testb64:
-	./b64 < testfiles/lyrics.txt > lyrics.base64
-	./b64 --decode < lyrics.base64 > same.lyrics.txt
-	diff testfiles/lyrics.txt same.lyrics.txt
+	./b64 < testfiles/lyrics.txt | ./b64 --decode > out.txt
+	diff testfiles/lyrics.txt out.txt
 
 testhex:
 	./hex < testfiles/lyrics.txt | ./hex --decode > out.txt
