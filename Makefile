@@ -31,11 +31,16 @@ hex: util/hex.c common.o
 common.o: common.c common.h
 	$(CC) -c $(CFLAGS) common.c
 
-test: all
-	$(info here's some shit)
+testb64:
 	./b64 < testfiles/lyrics.txt > lyrics.base64
 	./b64 --decode < lyrics.base64 > same.lyrics.txt
 	diff testfiles/lyrics.txt same.lyrics.txt
+
+testhex:
+	./hex < testfiles/lyrics.txt | ./hex --decode > out.txt
+	diff out.txt testfiles/lyrics.txt
+
+test: all testb64 testhex
 	touch test
 
 clean:
@@ -43,5 +48,5 @@ clean:
 	rm -f test find_xor_key test editdistance xor crack-rot-xor hextoascii b64 hex
 	rm -f same.lyrics.txt lyrics.base64
 
-.PHONY: clean all
+.PHONY: testb64 clean all
 

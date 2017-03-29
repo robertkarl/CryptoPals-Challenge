@@ -10,6 +10,7 @@ void usage(char **argv) {
 	printf("usage: %s [--decode]\n", argv[0]);
 	printf("reads arbitrary data from stdin and outputs hex encoded version to stdout\n");
 	printf("if --decode is specified input must be hex data\n");
+	exit(-1);
 }
 
 void decode_hex(FILE *in, FILE *out) {
@@ -17,7 +18,6 @@ void decode_hex(FILE *in, FILE *out) {
 	unsigned c, upper, lower;
 	while ((first = getc(in)) != EOF) {
 		second = getc(in);
-		assert(second != EOF);
 		upper = hexbytetointeger(first) << 4;
 		lower = hexbytetointeger(second);
 		c = upper + lower;
