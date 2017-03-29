@@ -12,7 +12,7 @@ void usage(char **argv) {
 	printf("if --decode is specified input must be hex data\n");
 }
 
-void hex2data(FILE *in, FILE *out) {
+void decode_hex(FILE *in, FILE *out) {
 	int first, second;
 	unsigned c, upper, lower;
 	while ((first = getc(in)) != EOF) {
@@ -25,19 +25,23 @@ void hex2data(FILE *in, FILE *out) {
 	}
 }
 
-void encode(FILE *in, FILE *out) {
-
+void encode_hex(FILE *in, FILE *out) {
+	int c;
+	while ((c = getc(in)) != EOF) {
+		putc(int2hex(c >> 4), out);
+		putc(int2hex(c & 15), out);
+	}
 }
 
 int main(int argc, char **argv) {
 	switch (argc) {
 	case 1:
-		encode(stdin, stdout);
+		encode_hex(stdin, stdout);
 		break;
 	case 2:
 		if (strcmp(argv[1], "--decode"))
 			usage(argv);
-		hex2data(stdin, stdout);
+		decode_hex(stdin, stdout);
 		break;
 	default:
 		usage(argv);
