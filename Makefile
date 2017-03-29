@@ -39,7 +39,11 @@ testhex:
 	./hex < testfiles/lyrics.txt | ./hex --decode > out.txt
 	diff out.txt testfiles/lyrics.txt
 
-test: all testb64 testhex
+testxor:
+	./xor ICE < testfiles/lyrics.txt | ./hex  > out.txt
+	diff out.txt testfiles/lyrics.xored.txt
+
+test: all testb64 testhex testxor
 	touch test
 
 clean:
