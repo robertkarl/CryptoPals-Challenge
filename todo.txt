@@ -1,6 +1,0 @@
-[ ] Update utils to use stdin or a file. start with xor char.
-	cat f | xorchar c
-	xorchar c --file 
-	[ ] Finish adding targets to `make all` and add some code to make test
-[ ] See about compiling ssl lib, or importing that shit with python
-

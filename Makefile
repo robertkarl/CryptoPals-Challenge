@@ -27,6 +27,9 @@ b64: util/b64.c common.o
 hex: util/hex.c common.o
 	$(CC) $(CFLAGS) -o hex util/hex.c common.o
 
+pad_pkcs: util/pkcs.c
+	$(CC) $(CFLAGS) -o pad_pkcs util/pkcs.c
+
 aes.o: 7-aes/aes.c
 	$(CC) -c -g -Wall -pedantic -Wstrict-prototypes 7-aes/aes.c
 
