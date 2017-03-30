@@ -1,0 +1,5 @@
+Cryptography challenge implementations in ansi C.
+
+Requirements: libc implementation and make
+
+cryptopals.com
