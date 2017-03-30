@@ -12,23 +12,27 @@ void usage(char **argv) {
 int main(int argc, char **argv) {
 	uint8_t *key = (uint8_t *)argv[1];
 	uint8_t *out;
-	uint8_t *curr;
-	uint8_t in[2000];
+	int inlen;
+	uint8_t in[4000];
 	int i = 0;
 	int c;
-	printf("%d args\n", argc);
+	out = malloc(16);
+
 	if (argc != 2)
+		usage(argv);
+	if (strlen(argv[1]) != 16)
 		usage(argv);
 
 	while ((c = getc(stdin)) != EOF) {
 		in[i++] = c;
 	}
-	out = malloc(17);
-	curr = in;
-	while (curr - in < i) {
-		AES128_ECB_decrypt((uint8_t *)curr, key, (uint8_t *)out); 
+	inlen = i;
+
+	i = 0;
+	while (i < inlen) {
+		AES128_ECB_decrypt((uint8_t *)in + i, key, (uint8_t *)out); 
 		printf("%.16s", out);
-		curr += 16;
+		i += 16;
 	}
 	return 0;
 }
