@@ -1,8 +1,7 @@
 CC=gcc
 CFLAGS = -I. -Wstrict-prototypes -Wall -g -pedantic -ansi
-DEPS = common.h
 
-all: xor editdistance hextoascii crack-rot-xor find_xor_key b64 hex 7
+all: xor editdistance hextoascii crack-rot-xor find_xor_key b64 hex 7 8
 
 find_xor_key: 4/find_xor_key.c common.o
 	$(CC) -o find_xor_key $(CFLAGS) 4/find_xor_key.c common.o
@@ -34,6 +33,9 @@ aes.o: 7-aes/aes.c
 7: 7-aes/7.c aes.o common.o
 	$(CC) -g -Wall -pedantic -o 7 7-aes/7.c aes.o common.o
 
+8: 8-detect-aes/8.c
+	$(CC) $(CFLAGS) -o 8 8-detect-aes/8.c
+
 common.o: common.c common.h
 	$(CC) -c $(CFLAGS) common.c
 
@@ -55,7 +57,7 @@ test: all testb64 testhex testxor
 
 clean:
 	rm -f common.o
-	rm -f test find_xor_key test editdistance xor crack-rot-xor hextoascii b64 hex 7
+	rm -f test find_xor_key test editdistance xor crack-rot-xor hextoascii b64 hex 7 8
 	rm -f same.lyrics.txt lyrics.base64
 
 .PHONY: testb64 clean all
