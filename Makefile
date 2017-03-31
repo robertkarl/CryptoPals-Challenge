@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS = -I. -Wstrict-prototypes -Wall -g -pedantic -ansi -I./libs
+CFLAGS = -I. -Wstrict-prototypes -Wall -g -pedantic -ansi -I./libs -Werror
 
 all: xor editdistance hextoascii crack-rot-xor find_xor_key b64 hex 7 8 cbc
 
@@ -30,8 +30,8 @@ hex: util/hex.c common.o
 pad_pkcs: util/pkcs.c
 	$(CC) $(CFLAGS) -o pad_pkcs util/pkcs.c
 
-cbc: cbc.c
-	$(CC) -pedantic -Wall -o cbc cbc.c -I./libs
+cbc: cbc.c aes.o common.o
+	$(CC) -pedantic -Wall -o cbc cbc.c -I./libs aes.o common.o
 
 aes.o: libs/aes.c
 	$(CC) -c -g -Wall -pedantic -Wstrict-prototypes libs/aes.c -I./libs

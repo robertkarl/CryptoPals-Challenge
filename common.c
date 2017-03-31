@@ -6,7 +6,7 @@
 static char *base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	"abcdefghijklmnopqrstuvwxyz0123456789+/";
 
-void printchars(char *c, int len) {
+void printchars(uint8_t *c, int len) {
 	int i;
 	for (i = 0; i < len; i++) {
 		printf("%c", c[i]);
@@ -140,5 +140,13 @@ int edit_distance(char *a, char *b, int len)
 			
 	}
 	return diff;
+}
+
+void xor_buffers(uint8_t *a, uint8_t *b, uint8_t *out, int len) {
+	int c;
+	while (len--) {
+		c = *a++ ^ *b++;
+		*out++ = c;
+	}
 }
 

@@ -22,8 +22,11 @@ unsigned decode64(char c);
 /* xor input against xorkey and place into output */
 void xor_single(char *input, char *output, char xorkey, unsigned len);
 
+/* Read a byte from a and b, then xor them and place in out */
+void xor_buffers(uint8_t *a, uint8_t *b, uint8_t *out, int len);
+
 int score(char *text, int len);
 
 int edit_distance(char *, char *, int len);
 
-void printchars(char *c, int len);
+void printchars(uint8_t *c, int len);
