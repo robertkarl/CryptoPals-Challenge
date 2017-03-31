@@ -62,7 +62,7 @@ test: all testb64 testhex testxor
 	rm out.txt
 
 clean:
-	rm -f common.o
+	rm -f common.o aes.o 
 	rm -f pad_pkcs test find_xor_key test editdistance xor crack-rot-xor hextoascii b64 hex 7 8 cbc
 	rm -f same.lyrics.txt lyrics.base64
 
