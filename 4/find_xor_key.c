@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
 			xor_single(raw, xored, j, NCHARS / 2);
 			s = score(xored, NCHARS / 2);
 			if (s < 700) {
-				printchars(xored, NCHARS / 2 - 1);
+				printchars((uint8_t *)xored, NCHARS / 2 - 1);
 				printf(" (score is %f at index %d)\n",
 					((float)s) / NCHARS,
 					i);
