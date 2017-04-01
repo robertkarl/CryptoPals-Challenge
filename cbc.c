@@ -29,9 +29,12 @@ void decrypt(uint8_t *block, uint8_t *lastblock, uint8_t *key) {
 void encrypt(uint8_t *block, uint8_t *lastblock, uint8_t *key) {
 	static uint8_t out[BLOCKSIZE];
 	static uint8_t cypher[BLOCKSIZE];
+	int i = 0;
 	xor_buffers(block, lastblock, out, BLOCKSIZE);
 	AES128_ECB_encrypt(out, key, cypher);
 	printchars(cypher, BLOCKSIZE);
+	for (i = 0; i < BLOCKSIZE; i++)
+		block[i] = cypher[i];
 }
 
 int main(int argc, char **argv) {
@@ -55,7 +58,6 @@ int main(int argc, char **argv) {
 	else if (argc != 2)
 		usage(argv);
 	key = (uint8_t *)(argv[1]);
-	
 
 	while ((c = getc(f)) != EOF) {
 		*(block + i++) = c;
@@ -64,15 +66,14 @@ int main(int argc, char **argv) {
 				decrypt(block, lastblock, key);
 			else
 				encrypt(block, lastblock, key);
-
 			/* swap last and curr block pointers */
 			tmp = lastblock;
 			lastblock = block;
 			block = tmp;
-			
 			i = 0;
 		}
 	}
-		
+	free(lastblock);
+	free(block);
 	return 0;
 }

@@ -31,7 +31,7 @@ pad_pkcs: util/pkcs.c
 	$(CC) $(CFLAGS) -o pad_pkcs util/pkcs.c
 
 cbc: cbc.c aes.o common.o
-	$(CC) -pedantic -Wall -o cbc cbc.c -I./libs aes.o common.o
+	$(CC) -g -pedantic -Wall -o cbc cbc.c -I./libs aes.o common.o
 
 aes.o: libs/aes.c
 	$(CC) -c -g -Wall -pedantic -Wstrict-prototypes libs/aes.c -I./libs
